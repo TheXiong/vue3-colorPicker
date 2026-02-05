@@ -193,6 +193,13 @@ watch(
         mode.value = 'gradient';
         const parsed = parseGradient(val);
         if (parsed) {
+          // 上一次创建的stop
+          const lastNewStop = gradient.value.stops.find((stop) => stop.id === selectedStopId.value);
+          // Select last new stop
+          if (lastNewStop) {
+            selectedStopId.value = parsed.stops.find((stop) => stop.percent === lastNewStop.percent)?.id || '';
+          }
+          
           gradient.value = parsed;
           // Select first stop by default if none selected
           if (!selectedStopId.value && gradient.value.stops.length > 0) {
@@ -203,6 +210,7 @@ watch(
               color.value = parseColor(firstStop.color);
             }
           }
+          
         }
       } else {
         mode.value = 'solid';
@@ -670,7 +678,7 @@ const handleModeChange = (newMode: 'solid' | 'gradient') => {
           <div v-for="(stop, index) in gradient.stops" :key="stop.id" class="gradient-stop"
             :class="{ selected: selectedStopId === stop.id }"
             :style="{ left: `${stop.percent}%`, background: stop.color }" @mousedown="(e) => handleStopDown(e, stop)"
-            @contextmenu.prevent="deleteStop(index)"></div>
+            @contextmenu.prevent="deleteStop(index)" @click.stop></div>
         </div>
       </div>
     </div>
@@ -909,8 +917,8 @@ const handleModeChange = (newMode: 'solid' | 'gradient') => {
       .gradient-stop {
         position: absolute;
         top: 50%;
-        width: 10px;
-        height: 10px;
+        width: 12px;
+        height: 12px;
         border: 2px solid var(--x-cp-text-inverse);
         border-radius: 50%;
         box-shadow: 0 0 2px var(--x-cp-shadow-color-heavy);
