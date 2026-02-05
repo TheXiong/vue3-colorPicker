@@ -151,8 +151,8 @@ const gradient = ref<GradientColor>({
   type: 'linear',
   degree: 90,
   stops: [
-    { color: '#ffffff', percent: 0, id: 'start' },
-    { color: '#000000', percent: 100, id: 'end' },
+    { color: props.format === 'HEX' ? '#ffffff' : 'rgba(255, 255, 255, 1)', percent: 0, id: 'start' },
+    { color: props.format === 'HEX' ? '#000000' : 'rgba(0, 0, 0, 1)', percent: 100, id: 'end' },
   ],
 });
 const selectedStopId = ref<string>('');
@@ -182,10 +182,10 @@ const getCurrentHex = () => {
 const getCurrentSolidColor = () => {
   const { h, s, v, a } = color.value;
   const rgb = hsv2rgb(h, s, v);
-  if (props.enableAlpha || props.format === 'RGB') {
-    return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${Number(a.toFixed(2))})`;
+  if (props.format === 'RGB') {
+    return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${props.enableAlpha ? Number(a.toFixed(2)) : 1})`;
   }
-  return rgb2hex(rgb.r, rgb.g, rgb.b);
+  return rgb2hex(rgb.r, rgb.g, rgb.b, props.enableAlpha ? Number(a.toFixed(2)) : undefined);
 };
 
 // Initialize color from props
@@ -263,8 +263,13 @@ const updateGradientStopColor = () => {
   // Get current color from picker
   const { h, s, v, a } = color.value;
   const rgb = hsv2rgb(h, s, v);
-  // Use rgba for gradients to support alpha
-  const colorStr = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${Number(a.toFixed(2))})`;
+  
+  let colorStr = '';
+  if (props.format === 'HEX') {
+    colorStr = rgb2hex(rgb.r, rgb.g, rgb.b, props.enableAlpha ? a : undefined);
+  } else {
+    colorStr = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${Number(a.toFixed(2))})`;
+  }
 
   const stopIndex = gradient.value.stops.findIndex((s) => s.id === selectedStopId.value);
   if (stopIndex !== -1) {
@@ -627,10 +632,10 @@ const handleModeChange = (newMode: 'solid' | 'gradient') => {
     mode.value = 'gradient';
     if (!gradient.value.stops.length) {
       gradient.value.stops = [
-        { color: getCurrentSolidColor(), percent: 0, id: '1' },
-        { color: '#ffffff', percent: 100, id: '2' },
+        { color: props.format === 'HEX' ? '#ffffff' : 'rgba(255, 255, 255, 1)', percent: 0, id: 'start' },
+        { color: props.format === 'HEX' ? '#000000' : 'rgba(0, 0, 0, 1)', percent: 100, id: 'end' },
       ];
-      selectedStopId.value = '1';
+      selectedStopId.value = 'start';
     }
     // Force update to gradient string
     updateModel();
@@ -725,7 +730,7 @@ const handleModeChange = (newMode: 'solid' | 'gradient') => {
         <select v-model="inputFormat" class="format-select">
           <option value="HEX">HEX</option>
           <option value="RGBA">{{ enableAlpha ? 'RGBA' : 'RGB' }}</option>
-          <option value="CSS">CSS</option>
+          <!-- <option value="CSS">CSS</option> -->
         </select>
       </div>
 
