@@ -18,6 +18,7 @@ const playgroundConfig = reactive({
   animationDuration: 200,
   useCustomSwatches: false,
   showText: true,
+  useType: 'both',
   theme: 'dark',
 });
 
@@ -52,6 +53,7 @@ const codePreview = computed(() => {
     props.push(`:animationDuration="${playgroundConfig.animationDuration}"`);
   if (!playgroundConfig.showText) props.push(`:showText="false"`);
   if (playgroundConfig.theme !== 'dark') props.push(`theme="${playgroundConfig.theme}"`);
+  if (playgroundConfig.useType !== 'both') props.push(`useType="${playgroundConfig.useType}"`);
   if (playgroundConfig.useCustomSwatches) props.push(`:swatchColors="[...] "`); // Abbreviated for preview
 
   return `<XColorPicker
@@ -169,6 +171,7 @@ const handleEvent = (type: string, val: string | object) => {
                 :swatchColors="playgroundConfig.useCustomSwatches ? customSwatches : undefined"
                 :showText="playgroundConfig.showText"
                 :theme="playgroundConfig.theme"
+                :useType="playgroundConfig.useType"
                 @change="(v: any) => handleEvent('change', v)"
                 @clear="() => handleEvent('clear', '')"
                 @palette-change="(v: any) => handleEvent('palette-change', v)"
@@ -204,6 +207,15 @@ const handleEvent = (type: string, val: string | object) => {
                 <select v-model="playgroundConfig.theme">
                   <option value="dark">Dark</option>
                   <option value="light">Light</option>
+                </select>
+              </div>
+
+              <div class="control-item">
+                <label>模式 (Use Type)</label>
+                <select v-model="playgroundConfig.useType">
+                  <option value="both">Both (Gradient & Solid)</option>
+                  <option value="pure">Pure (Solid Only)</option>
+                  <option value="gradient">Gradient Only</option>
                 </select>
               </div>
 

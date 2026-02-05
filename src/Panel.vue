@@ -8,7 +8,7 @@
 -->
 
 <script lang="ts" setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, nextTick } from 'vue';
 import {
   hsv2rgb,
   rgb2hsv,
@@ -63,6 +63,11 @@ const props = defineProps({
     type: String,
     default: 'dark',
     validator: (val: string) => ['dark', 'light'].includes(val),
+  },
+  useType: {
+    type: String,
+    default: 'both',
+    validator: (val: string) => ['pure', 'gradient', 'both'].includes(val),
   },
 });
 
@@ -141,7 +146,20 @@ const formatTime = (timestamp: number) => {
 };
 
 // Mode: 'solid' | 'gradient'
-const mode = ref<'solid' | 'gradient'>('solid');
+const mode = ref<'solid' | 'gradient'>(props.useType === 'gradient' ? 'gradient' : 'solid');
+
+watch(() => props.useType, (newVal) => {
+  nextTick(() => {
+    if (newVal === 'gradient') {
+      handleModeChange('gradient')
+    } else {
+      handleModeChange('solid');
+    }
+  })
+},{
+  immediate: true,
+});
+
 
 // Solid Color State (HSVA)
 const color = ref<HSVA>({ h: 0, s: 1, v: 1, a: 1 });
@@ -654,7 +672,7 @@ const handleModeChange = (newMode: 'solid' | 'gradient') => {
 <template>
   <div class="ik-color-picker__panel" ref="panelRef" :data-theme="theme">
     <!-- Tabs -->
-    <div class="ik-color-picker__tabs">
+    <div class="ik-color-picker__tabs" v-if="useType === 'both'">
       <div class="tab-item" :class="{ active: mode === 'solid' }" @click="handleModeChange('solid')">
         单色
       </div>

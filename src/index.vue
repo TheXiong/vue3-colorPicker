@@ -104,6 +104,11 @@ const props = defineProps({
     default: 'dark',
     validator: (val: string) => ['dark', 'light'].includes(val),
   },
+  useType: {
+    type: String,
+    default: 'both',
+    validator: (val: string) => ['pure', 'gradient', 'both'].includes(val),
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'change', 'palette-change', 'clear']);
@@ -399,6 +404,7 @@ const handleClear = () => {
             :maxCount="maxCount"
             :enableRecentColors="enableRecentColors"
             :theme="theme"
+            :useType="useType"
             @update:modelValue="handleUpdateModelValue"
           />
         </div>
