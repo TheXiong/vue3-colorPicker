@@ -64,6 +64,8 @@
 | `animationDuration` | `number` | 否 | `200` | 面板显示/隐藏动画时长（毫秒）。 |
 | `overlay` | `boolean` | 否 | `false` | 是否显示全局遮罩层。 |
 | `showText` | `boolean` | 否 | `true` | 触发器是否显示颜色文本值。 |
+| `theme` | `'dark' \| 'light'` | 否 | `'dark'` | 主题设置。 |
+| `useType` | `'pure' \| 'gradient' \| 'both'` | 否 | `'both'` | 模式限制。`pure`: 仅纯色; `gradient`: 仅渐变; `both`: 两者。 |
 
 ### 复杂 Props 示例
 
