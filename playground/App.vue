@@ -18,6 +18,7 @@ const playgroundConfig = reactive({
   animationDuration: 200,
   useCustomSwatches: false,
   showText: true,
+  theme: 'dark',
 });
 
 const formatOptions = ['HEX', 'RGB'];
@@ -50,6 +51,7 @@ const codePreview = computed(() => {
   if (playgroundConfig.animationDuration !== 200)
     props.push(`:animationDuration="${playgroundConfig.animationDuration}"`);
   if (!playgroundConfig.showText) props.push(`:showText="false"`);
+  if (playgroundConfig.theme !== 'dark') props.push(`theme="${playgroundConfig.theme}"`);
   if (playgroundConfig.useCustomSwatches) props.push(`:swatchColors="[...] "`); // Abbreviated for preview
 
   return `<XColorPicker
@@ -166,6 +168,7 @@ const handleEvent = (type: string, val: string | object) => {
                 :animationDuration="playgroundConfig.animationDuration"
                 :swatchColors="playgroundConfig.useCustomSwatches ? customSwatches : undefined"
                 :showText="playgroundConfig.showText"
+                :theme="playgroundConfig.theme"
                 @change="(v: any) => handleEvent('change', v)"
                 @clear="() => handleEvent('clear', '')"
                 @palette-change="(v: any) => handleEvent('palette-change', v)"
@@ -193,6 +196,14 @@ const handleEvent = (type: string, val: string | object) => {
                 <label>颜色格式 (Format)</label>
                 <select v-model="playgroundConfig.format">
                   <option v-for="opt in formatOptions" :key="opt" :value="opt">{{ opt }}</option>
+                </select>
+              </div>
+
+              <div class="control-item">
+                <label>主题 (Theme)</label>
+                <select v-model="playgroundConfig.theme">
+                  <option value="dark">Dark</option>
+                  <option value="light">Light</option>
                 </select>
               </div>
 

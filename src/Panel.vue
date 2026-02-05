@@ -59,6 +59,11 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  theme: {
+    type: String,
+    default: 'dark',
+    validator: (val: string) => ['dark', 'light'].includes(val),
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'change', 'close']);
@@ -642,7 +647,7 @@ const handleModeChange = (newMode: 'solid' | 'gradient') => {
 </script>
 
 <template>
-  <div class="ik-color-picker__panel" ref="panelRef">
+  <div class="ik-color-picker__panel" ref="panelRef" :data-theme="theme">
     <!-- Tabs -->
     <div class="ik-color-picker__tabs">
       <div class="tab-item" :class="{ active: mode === 'solid' }" @click="handleModeChange('solid')">

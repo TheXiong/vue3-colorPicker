@@ -99,6 +99,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  theme: {
+    type: String,
+    default: 'dark',
+    validator: (val: string) => ['dark', 'light'].includes(val),
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'change', 'palette-change', 'clear']);
@@ -325,7 +330,7 @@ const handleClear = () => {
 </script>
 
 <template>
-  <div class="ik-color-picker">
+  <div class="ik-color-picker" :data-theme="theme">
     <!-- Trigger -->
     <div class="ik-color-picker__trigger" ref="triggerRef" @mousedown.stop.prevent="togglePanel">
       <div class="ik-color-picker__trigger--inner">
@@ -368,6 +373,7 @@ const handleClear = () => {
           ref="panelContainerRef"
           class="ik-color-picker__panel-container"
           :class="{ 'is-mobile': panelPosition.placement === 'center' }"
+          :data-theme="theme"
           :style="{
             top: panelPosition.top + 'px',
             left: panelPosition.left + 'px',
@@ -392,6 +398,7 @@ const handleClear = () => {
             :recentColors="recentColors"
             :maxCount="maxCount"
             :enableRecentColors="enableRecentColors"
+            :theme="theme"
             @update:modelValue="handleUpdateModelValue"
           />
         </div>

@@ -70,3 +70,45 @@
     linear-gradient(45deg, transparent 75%, #555 75%),
     linear-gradient(-45deg, transparent 75%, #555 75%);
 }
+
+[data-theme='light'] {
+  /* Brand Colors */
+  --x-cp-primary-color: #0052d9;
+  --x-cp-primary-text: #0052d9;
+  --x-cp-danger-color: #ff4d4f;
+
+  /* Text Colors */
+  --x-cp-text-color: #333333;
+  --x-cp-text-secondary: #666666;
+  --x-cp-text-light: #999999;
+  --x-cp-text-inverse: #ffffff;
+  --x-cp-color-black: #000000;
+
+  /* Background Colors */
+  --x-cp-bg-panel: #ffffff;
+  --x-cp-bg-trigger: #ffffff;
+  --x-cp-bg-input: #f5f5f5;
+  --x-cp-bg-tab: #f0f0f0;
+  --x-cp-bg-tab-active: #ffffff;
+  --x-cp-bg-tab-divider: #e0e0e0;
+  --x-cp-bg-overlay: rgba(0, 0, 0, 0.05);
+  --x-cp-bg-clear: rgba(0, 0, 0, 0.1);
+  --x-cp-bg-clear-hover: rgba(0, 0, 0, 0.2);
+
+  /* Border Colors */
+  --x-cp-border-color: #e7e7e7;
+  --x-cp-border-color-dark: #dcdcdc;
+
+  /* Shadow Colors (RGBA) */
+  --x-cp-shadow-color-base: rgba(0, 0, 0, 0.1);
+  --x-cp-shadow-color-light: rgba(0, 0, 0, 0.05);
+  --x-cp-shadow-color-dark: rgba(0, 0, 0, 0.15);
+  --x-cp-shadow-color-heavy: rgba(0, 0, 0, 0.2);
+  --x-cp-shadow-color-deep: rgba(0, 0, 0, 0.3);
+
+  /* Checkerboard */
+  --x-cp-bg-checkerboard: linear-gradient(45deg, #eee 25%, transparent 25%),
+    linear-gradient(-45deg, #eee 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #eee 75%),
+    linear-gradient(-45deg, transparent 75%, #eee 75%);
+}
