@@ -1,0 +1,18 @@
+{
+  "_vue-BixkTuJP.js": {
+    "file": "assets/vue-BixkTuJP.js",
+    "name": "vue"
+  },
+  "index.html": {
+    "file": "assets/index-CU9TnAHJ.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "imports": [
+      "_vue-BixkTuJP.js"
+    ],
+    "css": [
+      "assets/index-l-fUdFF1.css"
+    ]
+  }
+}
