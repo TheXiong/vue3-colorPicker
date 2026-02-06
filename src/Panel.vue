@@ -146,7 +146,7 @@ const formatTime = (timestamp: number) => {
 };
 
 // Mode: 'solid' | 'gradient'
-const mode = ref<'solid' | 'gradient'>(props.useType === 'gradient' ? 'gradient' : 'solid');
+const mode = ref<'solid' | 'gradient'>('solid');
 
 watch(() => props.useType, (newVal) => {
   nextTick(() => {
