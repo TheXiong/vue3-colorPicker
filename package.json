@@ -1,6 +1,6 @@
 {
   "name": "x-color-picker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "description": "A color picker component with gradient support for Vue 3",
   "keywords": [
