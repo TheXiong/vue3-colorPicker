@@ -156,7 +156,7 @@ watch(() => props.useType, (newVal) => {
       handleModeChange('solid');
     }
   })
-},{
+}, {
   immediate: true,
 });
 
@@ -222,7 +222,7 @@ watch(
           if (lastNewStop) {
             selectedStopId.value = parsed.stops.find((stop) => stop.percent === lastNewStop.percent)?.id || '';
           }
-          
+
           gradient.value = parsed;
           // Select first stop by default if none selected
           if (!selectedStopId.value && gradient.value.stops.length > 0) {
@@ -233,7 +233,7 @@ watch(
               color.value = parseColor(firstStop.color);
             }
           }
-          
+
         }
       } else {
         mode.value = 'solid';
@@ -281,7 +281,7 @@ const updateGradientStopColor = () => {
   // Get current color from picker
   const { h, s, v, a } = color.value;
   const rgb = hsv2rgb(h, s, v);
-  
+
   let colorStr = '';
   if (props.format === 'HEX') {
     colorStr = rgb2hex(rgb.r, rgb.g, rgb.b, props.enableAlpha ? a : undefined);
@@ -603,6 +603,7 @@ const gradientBarStyle = computed(() => {
 
 const selectSwatch = (c: string, fromRecent = false) => {
   if (c.includes('gradient')) {
+    if(props.useType === 'pure') return;
     mode.value = 'gradient';
     const parsed = parseGradient(c);
     if (parsed) {
@@ -621,6 +622,7 @@ const selectSwatch = (c: string, fromRecent = false) => {
   }
 
   if (fromRecent) {
+    if(props.useType === 'gradient') return;
     mode.value = 'solid';
     const parsed = parseColor(c);
     color.value = parsed;
@@ -702,7 +704,8 @@ const handleModeChange = (newMode: 'solid' | 'gradient') => {
       </div>
 
       <div class="gradient-bar-wrapper">
-        <div class="gradient-bar" ref="gradientBarRef" :style="gradientBarStyle" @click.stop="handleGradientBarDblClick">
+        <div class="gradient-bar" ref="gradientBarRef" :style="gradientBarStyle"
+          @click.stop="handleGradientBarDblClick">
           <div v-for="(stop, index) in gradient.stops" :key="stop.id" class="gradient-stop"
             :class="{ selected: selectedStopId === stop.id }"
             :style="{ left: `${stop.percent}%`, background: stop.color }" @mousedown="(e) => handleStopDown(e, stop)"
@@ -805,6 +808,7 @@ const handleModeChange = (newMode: 'solid' | 'gradient') => {
 <style lang="scss" scoped>
 .ik-color-picker {
   user-select: none;
+
   &__panel {
     font-size: 14px;
     z-index: 1000;
